@@ -3,6 +3,10 @@ require './daerb_drac'
 
 describe Daerb::Card do
   context 'parsing' do
+    describe '#type' do
+      it 'separates main type and sub types'
+    end
+
     describe '#sets_and_rarity' do
       it 'gathers sets and their rarity'
     end
