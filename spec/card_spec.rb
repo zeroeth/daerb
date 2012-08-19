@@ -10,8 +10,8 @@ describe Daerb::Card do
 
     describe '#sets_and_rarity' do
       it 'gathers sets and their rarity' do
-        card.sets_and_rarity = "Woo Woo Rare, Waa Common"
-        card.sets.should == [["Woo Woo", "Rare"], ["Waa", "Common"]]
+        card.sets_and_rarity = "Woo Woo Rare, Waa Common, Super Set Mythic Rare"
+        card.sets.should == [["Woo Woo", "Rare"], ["Waa", "Common"], ["Super Set", "Mythic Rare"]]
       end
     end
 

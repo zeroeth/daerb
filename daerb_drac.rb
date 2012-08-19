@@ -16,6 +16,7 @@ module Daerb
     end
 
     def sets_and_rarity=(value)
+      @sets_and_rarity = value
       self.sets = value.split(', ').collect{|set| set.split(/ (\S*)$/)}
     end
   end
