@@ -3,6 +3,7 @@ require 'bundler/setup'
 
 require 'mechanize'
 require 'csv'
+require 'pry'
 
 require './daerb_drac'
 include Daerb
@@ -49,6 +50,10 @@ rows.each do |row|
     raise "DUNNO WHAT (#{heading}) IS"
   end
 end
+
+puts cards.count
+
+binding.pry
 
 # (power/toughness)
 # rule\nrule\nrule
