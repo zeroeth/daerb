@@ -24,7 +24,8 @@ module Daerb
 
     def power_and_toughness=(value)
       @power_and_toughness = value
-      numbers = value.match(/^\(([+-]?\d{1,2}|\*)\/([+-]?\d{1,2}|\*)\)$/)
+      format = /([+-]?\d{1,2}|\d*[-+]*\*)/
+      numbers = value.match(/^\(#{format}\/#{format}\)$/)
       if numbers
         self.power = numbers[1]
         self.toughness = numbers[2]
