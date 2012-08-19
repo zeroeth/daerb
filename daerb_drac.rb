@@ -4,6 +4,7 @@ module Daerb
     attr_accessor :main_type, :sub_types
     attr_accessor :sets
     attr_accessor :power, :toughness
+    attr_accessor :colors
 
     def rules=(value)
       @rules = value.split(/\n/)
@@ -28,6 +29,11 @@ module Daerb
         self.power = numbers[1]
         self.toughness = numbers[2]
       end
+    end
+
+    def color=(value)
+      @color = value
+      self.colors = value.split("/")
     end
   end
 end

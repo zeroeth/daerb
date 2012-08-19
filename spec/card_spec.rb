@@ -28,16 +28,65 @@ describe Daerb::Card do
     describe '#power_and_toughness' do
       it 'separates into two' do
         card.power_and_toughness = "(4/5)"
-        card.power.should == "4"
+        card.power.should     == "4"
         card.toughness.should == "5"
       end
 
-      it 'handles stars'
-      it 'handles halves'
+      it 'sets negative toughness' do
+        card.power_and_toughness = "(-1/5)"
+        card.power.should     == "-1"
+        card.toughness.should == "5"
+      end
+
+      it 'sets double digits' do
+        card.power_and_toughness = "(11/10)"
+        card.power.should     == "11"
+        card.toughness.should == "10"
+      end
+
+      it 'handles stars' do
+        card.power_and_toughness = "(*/*)"
+        card.power.should     == "*"
+        card.toughness.should == "*"
+      end
+
+      it 'handles stars with toughness modifier' do
+        card.power_and_toughness = "(*/1+*)"
+        card.power.should     == "*"
+        card.toughness.should == "1+*"
+      end
+
+      it 'handles stars with negative toughness modifier' do
+        card.power_and_toughness = "(*/7-*)"
+        card.power.should     == "*"
+        card.toughness.should == "7-*"
+      end
+
+      it 'handles stars with power modifier' do
+        card.power_and_toughness = "(1+*/2)"
+        card.power.should     == "1+*"
+        card.toughness.should == "2"
+      end
+
+      it 'handles unhinged cards' do
+        #"(1/3{1/2})",
+        #"({1/2}/{1/2})",
+        #"(*{^2}/*{^2})",
+        #"(2{1/2}/2{1/2})",
+        #"(3{1/2}/3{1/2})"
+
+        # ignore for now
+        card.power_and_toughness = "(3{1/2}/3{1/2})"
+        card.power.should     == nil
+        card.toughness.should == nil
+      end
     end
 
     describe '#color' do
-      it 'separates colors'
+      it 'separates colors' do
+        card.color = "Black/White"
+        card.colors.should == ["Black", "White"]
+      end
     end
 
     describe '#cost' do
