@@ -12,6 +12,7 @@ card = nil
 agent = Mechanize.new
 
 # Point to a results page from gatherer, in the format 'text spoiler'
+# such as: http://gatherer.wizards.com/Pages/Search/Default.aspx?output=spoiler&method=text&action=advanced&type=%7c%5b%22Artifact%22%5d%7c%5b%22Basic%22%5d%7c%5b%22Creature%22%5d%7c%5b%22Enchantment%22%5d%7c%5b%22Instant%22%5d%7c%5b%22Land%22%5d%7c%5b%22Legendary%22%5d%7c%5b%22Ongoing%22%5d%7c%5b%22Phenomenon%22%5d%7c%5b%22Plane%22%5d%7c%5b%22Planeswalker%22%5d%7c%5b%22Scheme%22%5d%7c%5b%22Snow%22%5d%7c%5b%22Sorcery%22%5d%7c%5b%22Tribal%22%5d%7c%5b%22Vanguard%22%5d%7c%5b%22World%22%5d
 page  = agent.get "file:" + File.join(File.expand_path(File.dirname(__FILE__)), "all_cards.html")
 doc   = page.parser
 
