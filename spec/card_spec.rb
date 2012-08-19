@@ -5,7 +5,17 @@ describe Daerb::Card do
   let(:card) { Daerb::Card.new }
   context 'parsing' do
     describe '#type' do
-      it 'separates main type and sub types'
+      it 'separates main type and sub types' do
+        card.type = "Creature - Zombie Cat"
+        card.main_type.should == 'Creature'
+        card.sub_types.should == ['Zombie', 'Cat']
+      end
+
+      it 'separates types with two spaces' do
+        card.type = "Creature  - Zombie Cat"
+        card.main_type.should == 'Creature'
+        card.sub_types.should == ['Zombie', 'Cat']
+      end
     end
 
     describe '#sets_and_rarity' do
@@ -16,7 +26,13 @@ describe Daerb::Card do
     end
 
     describe '#power_and_toughness' do
-      it 'separates into two'
+      it 'separates into two' do
+        card.power_and_toughness = "(4/5)"
+        card.power.should == "4"
+        card.toughness.should == "5"
+      end
+
+      it 'handles stars'
       it 'handles halves'
     end
 

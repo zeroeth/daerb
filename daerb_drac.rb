@@ -3,6 +3,7 @@ module Daerb
     attr_accessor :name, :cost, :type, :power_and_toughness, :rules, :sets_and_rarity, :color, :loyalty
     attr_accessor :main_type, :sub_types
     attr_accessor :sets
+    attr_accessor :power, :toughness
 
     def rules=(value)
       @rules = value.split(/\n/)
@@ -10,14 +11,23 @@ module Daerb
 
     def type=(value)
       @type = value
-      types = value.split(/ . /)
+      types = value.split(/[ ]{1,2}. /)
       self.main_type = types[0]
       self.sub_types = types[1].split if types[1]
     end
 
     def sets_and_rarity=(value)
       @sets_and_rarity = value
-      self.sets = value.split(', ').collect{|set| set.split(/ (\S*)$/)}
+      self.sets = value.split(', ').collect{|set| set.split(/ (Mythic Rare|\S*)$/)}
+    end
+
+    def power_and_toughness=(value)
+      @power_and_toughness = value
+      numbers = value.match(/^\((\d{1,2})\/(\d{1,2})\)$/)
+      if numbers
+        self.power = numbers[1]
+        self.toughness = numbers[2]
+      end
     end
   end
 end
