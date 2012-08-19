@@ -34,11 +34,11 @@ rows.each do |row|
   when "Type:"
     card.type = value
   when "Pow/Tgh:"
-    card.power_and_toughness value
+    card.power_and_toughness = value
   when "Rules Text:"
-    card.split_rules value
+    card.rules = value
   when "Set/Rarity:"
-    card.sets_and_rarity value
+    card.sets_and_rarity = value
   when "Color:"
     card.color = value
   when "Loyalty:"
@@ -52,3 +52,4 @@ end
 # (power/toughness)
 # rule\nrule\nrule
 # set name rarity, set name rarity
+# color/color/color
