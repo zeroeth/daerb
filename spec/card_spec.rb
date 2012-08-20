@@ -1,4 +1,8 @@
 require 'spec_helper'
+
+require 'simplecov'
+SimpleCov.start
+
 require './daerb_drac'
 
 describe Daerb::Card do
@@ -93,6 +97,13 @@ describe Daerb::Card do
       it 'separates costs'
       # into like colorless/w/b/b/g/r/x... how to handle phrexian? and
       # either/ors
+    end
+
+    describe '#rules' do
+      it 'separates rules' do
+        card.rules = "He attacks\nYou Die"
+        card.rules.should == ["He attacks", "You Die"]
+      end
     end
   end
 end
