@@ -1,10 +1,13 @@
 module Daerb
   class Card
     attr_accessor :name, :cost, :type, :power_and_toughness, :rules, :sets_and_rarity, :color, :loyalty
+
     attr_accessor :main_type, :sub_types
     attr_accessor :sets
     attr_accessor :power, :toughness
     attr_accessor :colors
+
+    attr_accessor :set_number, :set, :rarity, :id, :artist
 
     def rules=(value)
       @rules = value.split(/\n/)
