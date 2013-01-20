@@ -53,7 +53,7 @@ module Scraper
 
         bar = ProgressBar.new 'Images', image_links.count
         image_links.each do |link|
-          file_name = File.join(".", link.path)
+          file_name = File.join(self.directory, ".", link.path)
           FileUtils.mkdir_p File.dirname file_name
           agent.get(link).save(file_name) unless File.exists? file_name
 
