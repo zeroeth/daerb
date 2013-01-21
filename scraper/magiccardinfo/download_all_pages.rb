@@ -33,7 +33,8 @@ module Scraper
         links.each do |link|
           page = agent.get link.attributes["href"]
           set_pages << page
-          file_name = File.join(self.directory, page.uri.path[1..-1].gsub("/", "_"))
+          file_name = File.join(self.directory, "sets", page.uri.path[1..-1].gsub("/", "_"))
+          FileUtils.mkdir_p File.dirname file_name
           page.save_as file_name unless File.exists? file_name
         end
 
