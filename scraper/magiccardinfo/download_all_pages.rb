@@ -43,6 +43,8 @@ module Scraper
         self.agent = Mechanize.new
         self.host = "http://magiccards.info"
         self.directory = "magiccardsinfo"
+
+        # TODO use base path expanded to make executable from anywhere but path relative to rb file.
       end
     end
   end
