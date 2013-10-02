@@ -24,40 +24,16 @@ module Scraper
         page.save_as file_name unless File.exists? file_name
 
         # use more iteration and siblings to the h1 vs nth child.
-        set_link_matcher = "table:nth-child(32) td:nth-child(2) ul:nth-child(2) ul li a, table:nth-child(32) td:nth-child(1) li li a"
+        set_link_matcher = "table:nth-child(32) td:nth-child(2) ul:nth-child(2) a , table:nth-child(32) td:nth-child(1) a"
         links = page.parser.css set_link_matcher
 
-
         ### Download all card lists ######
-        set_pages = []
+        bar = ProgressBar.new "#{links.count} Pages", links.count
         links.each do |link|
           page = agent.get link.attributes["href"]
-          set_pages << page
           file_name = File.join(self.directory, "sets", page.uri.path[1..-1].gsub("/", "_"))
           FileUtils.mkdir_p File.dirname file_name
           page.save_as file_name unless File.exists? file_name
-        end
-
-
-        image_links = []
-        ### gather all image links ##########
-        set_pages.each do |page|
-          card_links = page.parser.css("table")[3].css("a")
-          card_links.each do |link|
-            # http://magiccards.info/rtr/en/1.html
-            # http://magiccards.info/scans/en/rtr/1.jpg
-            matcher = link.attributes["href"].text.match /\/(.+)\/(.+)\/(.+).html/
-            image_links << URI.join(host, File.join("scans", matcher[2], matcher[1], "#{matcher[3]}.jpg"))
-          end
-        end
-
-
-        bar = ProgressBar.new 'Images', image_links.count
-        image_links.each do |link|
-          file_name = File.join(self.directory, ".", link.path)
-          FileUtils.mkdir_p File.dirname file_name
-          agent.get(link).save(file_name) unless File.exists? file_name
-
           bar.inc
         end
         bar.finish
