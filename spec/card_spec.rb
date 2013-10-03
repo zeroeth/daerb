@@ -1,3 +1,5 @@
+# It was the night before Christmas and all through the house, not a creature was coding: UTF-8, not even with a mouse.
+
 require 'spec_helper'
 
 require 'simplecov'
@@ -110,15 +112,99 @@ end
 
 
 describe Daerb::InfoCard do
-  let(:card) { Daerb::GathererCard.new }
+  let(:card) { Daerb::InfoCard.new }
   context 'parsing' do
     describe '#type_column' do
-      it 'handles instants' # all the one-word types?
-      it 'handles planeswalkers'
-      it 'handles creatures'
-      it 'handles legendary creatures'
-      it 'handles basic lands'
-      it 'handles special lands'
+      it 'handles instants' do
+        card.parse_type_column "Instant"
+
+        card.primary_type.should == "Instant"
+        card.types.should == ["Instant"]
+      end
+
+
+      it 'handles sorcery' do
+        card.parse_type_column "Sorcery"
+
+        card.primary_type.should == "Sorcery"
+        card.types.should == ["Sorcery"]
+      end
+
+
+      it 'handles enchantments' do
+        card.parse_type_column "Enchantment — Aura"
+
+        card.primary_type.should == "Enchantment"
+        card.types.should == ["Enchantment", "Aura"]
+
+
+        card.parse_type_column "Enchantment"
+
+        card.primary_type.should == "Enchantment"
+        card.types.should == ["Enchantment"]
+      end
+
+
+      it 'handles planeswalkers' do
+        card.parse_type_column "Planeswalker — Ral (Loyalty: 4)"
+
+        card.primary_type.should == "Planeswalker"
+        card.types.should == ["Planeswalker", "Ral"]
+        card.loyalty == "4"
+      end
+
+
+      it 'handles creatures' do
+        card.parse_type_column "Creature — Angel 2/4"
+
+        card.primary_type.should == "Creature"
+        card.types.should == ["Creature", "Angel"]
+
+        card.power.should     == "2"
+        card.toughness.should == "4"
+      end
+
+
+      it 'handles legendary creatures' do
+        card.parse_type_column "Legendary Creature — Human Soldier 2/5"
+
+        card.primary_type.should == "Legendary Creature"
+
+        # NOTE a lot of ways to go here. like "Legendary Creature" and "Human Soldier", or all 4 words
+        card.types.should == ["Legendary Creature", "Human Soldier"] # ["Legendary", "Creature", "Human", "Soldier"]
+
+        card.power.should     == "2"
+        card.toughness.should == "5"
+      end
+
+
+      it 'handles basic lands' do
+        card.parse_type_column "Land"
+
+        card.primary_type.should == "Land"
+        card.types.should == ["Land"]
+      end
+
+
+      it 'handles special lands' do
+        card.parse_type_column "Land — Gate"
+
+        card.primary_type.should == "Land"
+        card.types.should == ["Land", "Gate"]
+      end
+
+
+      it 'handles star power and toughness' do
+        card.parse_type_column "Creature — Nightmare Horse */*"
+
+        card.primary_type.should == "Creature"
+        card.types.should == ["Creature", "Nightmare Horse"]
+        card.power.should     == "*"
+        card.toughness.should == "*"
+      end
+
+      it 'handles negative power and toughness'
+      it 'handles combination power and toughness' # the strange ones
     end
   end
 end
