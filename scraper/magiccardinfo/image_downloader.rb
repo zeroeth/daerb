@@ -56,10 +56,13 @@ module Scraper
 
 
       def download_all_images
+        existing = image_links.select{|link| File.exists? File.join(self.directory, link.path) }
+        puts "#{existing.count} Existing skipped."
+
         bar = ProgressBar.new "Downloading", image_links.count
 
         image_links.each do |link|
-          file_name = File.join(self.directory, ".", link.path)
+          file_name = File.join(self.directory, link.path)
           FileUtils.mkdir_p File.dirname file_name
           agent.get(link).save(file_name) unless File.exists? file_name
 
