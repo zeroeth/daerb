@@ -1,10 +1,11 @@
+# Information available
+# * List of all core sets
+# * List of all blocks
+#   * List of expansion sets in each block
+
 module Scraper
   module Magiccardinfo
     class SetIndex
-    end
-
-    # with just info from set index
-    class MiniCard
     end
   end
 end

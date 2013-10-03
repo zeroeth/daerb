@@ -1,5 +1,5 @@
 module Daerb
-  class Card
+  class GathererCard
     attr_accessor :name, :cost, :type, :power_and_toughness, :rules, :sets_and_rarity, :color, :loyalty
 
     attr_accessor :main_type, :sub_types
@@ -40,5 +40,19 @@ module Daerb
       @color = value
       self.colors = value.split("/")
     end
+  end
+
+
+  # TODO refactor 'card' and have parsers for each moved into their folder
+
+  class InfoCard
+    attr_accessor :set_number, :name, :primary_type, :types, :loyalty, :power, :toughness, :cost, :rarity, :artist
+
+    attr_accessor :set, :color, :converted_cost
+
+
+    def parse_type_column(string)
+    end
+
   end
 end

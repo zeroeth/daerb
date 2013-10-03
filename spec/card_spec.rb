@@ -5,8 +5,8 @@ SimpleCov.start
 
 require './daerb_drac'
 
-describe Daerb::Card do
-  let(:card) { Daerb::Card.new }
+describe Daerb::GathererCard do
+  let(:card) { Daerb::GathererCard.new }
   context 'parsing' do
     describe '#type' do
       it 'separates main type and sub types' do
@@ -104,6 +104,21 @@ describe Daerb::Card do
         card.rules = "He attacks\nYou Die"
         card.rules.should == ["He attacks", "You Die"]
       end
+    end
+  end
+end
+
+
+describe Daerb::InfoCard do
+  let(:card) { Daerb::GathererCard.new }
+  context 'parsing' do
+    describe '#type_column' do
+      it 'handles instants' # all the one-word types?
+      it 'handles planeswalkers'
+      it 'handles creatures'
+      it 'handles legendary creatures'
+      it 'handles basic lands'
+      it 'handles special lands'
     end
   end
 end

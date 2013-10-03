@@ -26,7 +26,7 @@ rows.each do |row|
 
   case heading
   when "Name:"
-    card = Card.new
+    card = GathererCard.new
     cards << card
 
     card.name = value
