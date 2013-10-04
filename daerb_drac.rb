@@ -59,7 +59,7 @@ module Daerb
     def parse_type_column(string)
       # Extract power and toughness
 
-      single_match = /([+-]?\d{1,2}|\d*[-+]*\*)/
+      single_match = /(\d*[-+]*\*|[+-]?\d{1,2})/
       dual_match   = /\s#{single_match}\/#{single_match}/
       numbers      = string.match dual_match
       string.gsub! dual_match, ''

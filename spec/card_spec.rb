@@ -212,6 +212,14 @@ describe Daerb::InfoCard do
         card.toughness.should == "1"
       end
 
+      it 'handles numbers minus star' do
+        card.parse_type_column "Artifact Creature */7-*"
+        card.primary_type.should == "Artifact Creature"
+        card.types.should == ["Artifact Creature"]
+        card.power.should == "*"
+        card.toughness.should == "7-*"
+      end
+
       it 'handles negative power and toughness'
       it 'handles combination power and toughness' # the strange ones
     end
