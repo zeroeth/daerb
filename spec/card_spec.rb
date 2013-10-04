@@ -150,7 +150,7 @@ describe Daerb::InfoCard do
 
         card.primary_type.should == "Planeswalker"
         card.types.should == ["Planeswalker", "Ral"]
-        card.loyalty == "4"
+        card.loyalty.should == "4"
       end
 
 

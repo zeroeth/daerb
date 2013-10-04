@@ -76,7 +76,7 @@ module Daerb
       number = string.match loyalty_match
       string.gsub! loyalty_match, ''
       if number
-        self.loyalty = number[0]
+        self.loyalty = number[1]
       end
 
 
