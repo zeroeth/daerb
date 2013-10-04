@@ -24,7 +24,8 @@ module Scraper
         page.save_as file_name unless File.exists? file_name
 
         # use more iteration and siblings to the h1 vs nth child.
-        set_link_matcher = "table:nth-child(32) td:nth-child(2) ul:nth-child(2) a , table:nth-child(32) td:nth-child(1) a"
+        set_link_matcher = "ul:nth-child(6) li:nth-child(2) li:nth-child(1) a , table:nth-child(32) td:nth-child(1) a, table:nth-child(32) td:nth-child(2) ul:nth-child(2) a"
+
         links = page.parser.css set_link_matcher
 
         ### Download all card lists ######
@@ -42,9 +43,9 @@ module Scraper
       def initialize
         self.agent = Mechanize.new
         self.host = "http://magiccards.info"
-        self.directory = "magiccardsinfo"
 
-        # TODO use base path expanded to make executable from anywhere but path relative to rb file.
+        base_dir = File.expand_path(File.dirname(__FILE__))
+        self.directory = File.join(base_dir, "magiccardsinfo")
       end
     end
   end

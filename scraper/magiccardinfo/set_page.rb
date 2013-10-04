@@ -37,7 +37,8 @@ module Scraper
 
         ### row selector ##############
 
-        self.card_rows = page.parser.css("table:nth-child(30) tr.even, table:nth-child(30) tr.odd")
+        self.card_rows = page.parser.css("table")[-2].css("tr + tr") # skip first tr
+
 
 
         ### row card parser ##########
@@ -46,8 +47,6 @@ module Scraper
           extract_card_from card_row
         end
 
-
-        puts "#{cards.count} Cards gathered"
       end
 
 
@@ -61,8 +60,8 @@ module Scraper
         card.name   = values[1].text
         card.cost   = values[3].text
         card.rarity = values[4].text
-        card.artist = values[5].text.strip
-        card.set    = values[6].text
+        card.artist = values[5].text
+        card.set    = values[6].text.strip
         card.set_number = values[0].text
 
         self.cards.push card
@@ -81,5 +80,3 @@ module Scraper
     end
   end
 end
-
-Scraper::Magiccardinfo::SetPage.new("m14").gather_cards

@@ -88,6 +88,8 @@ module Daerb
 
 
     def cost=(string)
+      return if string.empty?
+
       @cost = string.clone
 
       # calculate converted cost

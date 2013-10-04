@@ -76,8 +76,9 @@ module Scraper
       def initialize
         self.agent = Mechanize.new
         self.host = "http://magiccards.info"
-        self.directory = File.join(Dir.pwd, "magiccardsinfo", "sets")
-        # pwd or __FILE__
+
+        base_dir = File.expand_path(File.dirname(__FILE__))
+        self.directory = File.join(base_dir, "magiccardsinfo", "sets")
 
         self.image_links = Array.new
         self.pages       = Array.new
