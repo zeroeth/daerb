@@ -1,6 +1,7 @@
-source :rubygems
+source 'https://rubygems.org'
 gem 'mechanize'
 gem 'pry'
 gem 'rspec'
 gem 'simplecov'
 gem 'progressbar'
+gem 'colored'

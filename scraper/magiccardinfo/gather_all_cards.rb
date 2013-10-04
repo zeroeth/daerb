@@ -3,6 +3,7 @@ require 'bundler/setup'
 
 require 'pry'
 require 'progressbar'
+require 'colored'
 
 require './scraper/magiccardinfo/set_index'
 require './scraper/magiccardinfo/set_page'
@@ -46,7 +47,9 @@ module Scraper
           formatted_sets = Array.new
 
           row_of_pages.each do |set_name, set_cards|
-            formatted_set = sprintf("[ %#{max_length}s %4d ] ", set_name, set_cards.count)
+            formatted_name   = sprintf("%#{max_length}s", set_name)
+            formatted_number = sprintf("%4d", set_cards.count)
+            formatted_set = "[ #{formatted_name.cyan} #{formatted_number.green} ] "
             formatted_sets.push formatted_set
           end
 
