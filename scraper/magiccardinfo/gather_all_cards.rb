@@ -66,13 +66,10 @@ module Scraper
       DEFAULT_WIDTH = 80
       def get_term_width
         term_width = if ENV['COLUMNS'] =~ /^\d+$/
-          puts "ONE"
           ENV['COLUMNS'].to_i
         elsif (RUBY_PLATFORM =~ /java/ || (!STDIN.tty? && ENV['TERM'])) && shell_command_exists?('tput')
-          puts "TWO"
           `tput cols`.to_i
         elsif STDIN.tty? && shell_command_exists?('stty')
-          puts "TRE"
           `stty size`.scan(/\d+/).map { |s| s.to_i }[1]
         else
           DEFAULT_WIDTH
