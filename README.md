@@ -10,9 +10,9 @@ Instructions
 
 The magiccardinfo scraper has 3 segments so far.
 
-* download_all_pages.rb: downloads all the sets from the US section.
-* image_downloader.rb: parses through those set pages to retrieve images
-* set_page.rb: parse a set page for all its cards.
+* download_all_pages.rb: Downloads all the sets from the US section. Run this just once, and you get a local copy to work with.
+* image_downloader.rb: Parse through local set pages to retrieve images
+* gather_all_cards.rb: Parse through local set pages for all cards and turn them into an array
 
 
 The gatherer scraper worked off a large html file that there's no way to download anymore.
