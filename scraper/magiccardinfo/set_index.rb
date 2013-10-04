@@ -18,7 +18,7 @@ require 'pry'
 module Scraper
   module Magiccardinfo
     class SetIndex
-      attr_accessor :agent, :directory, :blocks, :sets
+      attr_accessor :agent, :directory, :blocks, :set_names
 
 
       def get_set_names
@@ -28,7 +28,7 @@ module Scraper
 
         rows   = page.parser.css(set_name_matcher)
         values = rows.collect(&:text)
-        self.sets = values
+        self.set_names = values
       end
 
 
@@ -38,8 +38,8 @@ module Scraper
         base_dir = File.expand_path(File.dirname(__FILE__))
         self.directory = File.join(base_dir, "magiccardsinfo")
 
-        self.blocks = Array.new
-        self.sets   = Array.new
+        self.blocks    = Array.new
+        self.set_names = Array.new
       end
 
     end

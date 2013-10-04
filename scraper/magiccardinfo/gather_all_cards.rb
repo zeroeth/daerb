@@ -10,18 +10,20 @@ require './scraper/magiccardinfo/set_page'
 module Scraper
   module Magiccardinfo
     class GatherAllCards
-      attr_accessor :cards
+      attr_accessor :cards, :set_pages
 
-      def gather_and_report
+      def gather
         index = Scraper::Magiccardinfo::SetIndex.new
         index.get_set_names
 
-        bar = ProgressBar.new "#{index.sets.count} Sets", index.sets.count
+        bar = ProgressBar.new "#{index.set_names.count} Sets", index.set_names.count
 
-        index.sets.each do |set_name|
+        index.set_names.each do |set_name|
           page = Scraper::Magiccardinfo::SetPage.new(set_name.gsub('_en',''))
           page.gather_cards
-          cards.push page.cards
+
+          self.set_pages.push page
+          self.cards.push page.cards
 
           bar.inc
         end
@@ -31,14 +33,40 @@ module Scraper
         cards.flatten!
       end
 
+
+      def report
+        sets = cards.group_by(&:set)
+        max_length = sets.keys.collect(&:length).max
+
+        puts ""
+
+        sets.each_slice(4) do |row_of_pages|
+
+          formatted_sets = Array.new
+
+          row_of_pages.each do |set_name, set_cards|
+            formatted_set = sprintf("[ %#{max_length}s %4d ]", set_name, set_cards.count)
+            formatted_sets.push formatted_set
+          end
+
+          puts formatted_sets.join(" ")
+        end
+
+        puts ""
+        puts "#{cards.count} Cards gathered"
+      end
+
+
       def initialize
-        self.cards = Array.new
+        self.cards     = Array.new
+        self.set_pages = Array.new
       end
     end
   end
 end
 
 gatherer = Scraper::Magiccardinfo::GatherAllCards.new
-gatherer.gather_and_report
+gatherer.gather
+gatherer.report
 
 binding.pry
