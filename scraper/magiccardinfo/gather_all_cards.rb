@@ -37,23 +37,56 @@ module Scraper
       def report
         sets = cards.group_by(&:set)
         max_length = sets.keys.collect(&:length).max
+        display_columns = (get_term_width / (max_length + 10)) # 10 comes from the formatting below
 
         puts ""
 
-        sets.each_slice(4) do |row_of_pages|
+        sets.each_slice(display_columns) do |row_of_pages|
 
           formatted_sets = Array.new
 
           row_of_pages.each do |set_name, set_cards|
-            formatted_set = sprintf("[ %#{max_length}s %4d ]", set_name, set_cards.count)
+            formatted_set = sprintf("[ %#{max_length}s %4d ] ", set_name, set_cards.count)
             formatted_sets.push formatted_set
           end
 
-          puts formatted_sets.join(" ")
+          puts formatted_sets.join
         end
 
         puts ""
         puts "#{cards.count} Cards gathered"
+      end
+
+
+      # Term width, borrowed from progressbar
+
+      DEFAULT_WIDTH = 80
+      def get_term_width
+        term_width = if ENV['COLUMNS'] =~ /^\d+$/
+          puts "ONE"
+          ENV['COLUMNS'].to_i
+        elsif (RUBY_PLATFORM =~ /java/ || (!STDIN.tty? && ENV['TERM'])) && shell_command_exists?('tput')
+          puts "TWO"
+          `tput cols`.to_i
+        elsif STDIN.tty? && shell_command_exists?('stty')
+          puts "TRE"
+          `stty size`.scan(/\d+/).map { |s| s.to_i }[1]
+        else
+          DEFAULT_WIDTH
+        end
+
+        if term_width > 0
+          term_width
+        else
+          DEFAULT_WIDTH
+        end
+      rescue Exception => e
+        binding.pry
+        DEFAULT_WIDTH
+      end
+
+      def shell_command_exists?(command)
+        ENV['PATH'].split(File::PATH_SEPARATOR).any?{|d| File.exists? File.join(d, command) }
       end
 
 
