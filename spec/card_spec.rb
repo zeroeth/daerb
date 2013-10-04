@@ -206,5 +206,49 @@ describe Daerb::InfoCard do
       it 'handles negative power and toughness'
       it 'handles combination power and toughness' # the strange ones
     end
+
+
+    describe "#converted_cost" do
+      it 'handles basic cost' do
+        card.cost = "WW"
+        card.converted_cost.should == 2
+      end
+
+      it 'handles combined basics' do
+        card.cost = "WWB"
+        card.converted_cost.should == 3
+      end
+
+      it 'handles colorless' do
+        card.cost = "2"
+        card.converted_cost.should == 2
+      end
+
+      it 'handles x' do
+        card.cost = "X"
+        card.converted_cost.should == 0
+      end
+
+      it 'handles complex combinations' do
+        card.cost = "XWWUG"
+        card.converted_cost.should == 4
+
+        card.cost = "X2UBG"
+        card.converted_cost.should == 5
+      end
+
+      it 'handles split color' do
+        card.cost = "X{W/B}{W/B}"
+        card.converted_cost.should == 2
+      end
+
+      it 'handles phrexia counters' do
+        card.cost = "1{WP}{RP}"
+        card.converted_cost.should == 3
+
+        card.cost = "5{GP}"
+        card.converted_cost.should == 6
+      end
+    end
   end
 end

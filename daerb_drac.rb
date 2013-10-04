@@ -86,5 +86,34 @@ module Daerb
       self.primary_type = types.first
     end
 
+
+    def cost=(string)
+      @cost = string.clone
+
+      # calculate converted cost
+
+      self.converted_cost = 0
+
+
+      # remove X cost since it is 0 if not in play
+
+      string.gsub!('X', '')
+
+
+      # extract digit value
+
+      number = string.match /\d+/
+      string.gsub! /\d+/, ''
+      if number
+        self.converted_cost += number[0].to_i
+      end
+
+
+      # replace complex rules with a single token, we can extract everything in a later version
+
+      string.gsub! /(\{.*?\})/, 'H'
+      self.converted_cost += string.split('').count
+    end
+
   end
 end
