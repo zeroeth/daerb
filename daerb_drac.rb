@@ -87,6 +87,19 @@ module Daerb
     end
 
 
+    # Handle old summon type
+
+    def primary_type= string
+      if string.match /Summon/
+        values = string.split
+        @primary_type = values[0]
+        self.types = values
+      else
+        @primary_type = string
+      end
+    end
+
+
     def cost=(string)
       return if string.empty?
 

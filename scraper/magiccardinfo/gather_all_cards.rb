@@ -13,6 +13,9 @@ module Scraper
     class GatherAllCards
       attr_accessor :cards, :set_pages
 
+
+      # Combine all the cards from each set page
+
       def gather
         index = Scraper::Magiccardinfo::SetIndex.new
         index.get_set_names
@@ -35,12 +38,18 @@ module Scraper
       end
 
 
+      # Show various stats on cards.
+
       def report
+        ### Cards in each set ##################################
+
         sets = cards.group_by(&:set)
         max_length = sets.keys.collect(&:length).max
+
         display_columns = (get_term_width / (max_length + 10)) # 10 comes from the formatting below
 
         puts ""
+        puts "Cards by expansion set".cyan
 
         sets.each_slice(display_columns) do |row_of_pages|
 
@@ -58,6 +67,60 @@ module Scraper
 
         puts ""
         puts "#{cards.count} Cards gathered"
+
+
+
+        ### Cards in each type #################################
+
+        sets = cards.group_by(&:primary_type)
+        max_length = sets.keys.collect(&:length).max
+
+        display_columns = (get_term_width / (max_length + 10)) # 10 comes from the formatting below
+
+        puts ""
+        puts "Cards by primary type".yellow
+
+        sets.each_slice(display_columns) do |row_of_pages|
+
+          formatted_sets = Array.new
+
+          row_of_pages.each do |type_name, set_cards|
+            formatted_name   = sprintf("%#{max_length}s", type_name)
+            formatted_number = sprintf("%4d", set_cards.count)
+            formatted_set = "[ #{formatted_name.yellow} #{formatted_number.blue} ] "
+            formatted_sets.push formatted_set
+          end
+
+          puts formatted_sets.join
+        end
+
+
+
+        ### Cards by converted mana cost #######################
+
+        sets = cards.group_by(&:converted_cost)
+        max_length = sets.keys.collect{|key| key.to_s.length}.max
+
+        display_columns = (get_term_width / (max_length + 10)) # 10 comes from the formatting below
+
+        puts ""
+        puts "Cards by converted mana cost".magenta
+
+        sets.each_slice(display_columns) do |row_of_pages|
+
+          formatted_sets = Array.new
+
+          row_of_pages.each do |cost, set_cards|
+            formatted_name   = sprintf("%#{max_length}s", cost)
+            formatted_number = sprintf("%4d", set_cards.count)
+            formatted_set = "[ #{formatted_name.magenta} #{formatted_number.red} ] "
+            formatted_sets.push formatted_set
+          end
+
+          puts formatted_sets.join
+        end
+
+
       end
 
 

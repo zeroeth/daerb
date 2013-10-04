@@ -203,6 +203,15 @@ describe Daerb::InfoCard do
         card.toughness.should == "*"
       end
 
+      it 'handles old summon types' do
+        card.parse_type_column "Summon Shade 0/1"
+
+        card.primary_type.should == "Summon"
+        card.types.should == ["Summon", "Shade"]
+        card.power.should     == "0"
+        card.toughness.should == "1"
+      end
+
       it 'handles negative power and toughness'
       it 'handles combination power and toughness' # the strange ones
     end
