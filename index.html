@@ -1,0 +1,74 @@
+<!doctype html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="chrome=1">
+    <title>Daerb by zeroeth</title>
+    <link rel="stylesheet" href="stylesheets/styles.css">
+    <link rel="stylesheet" href="stylesheets/pygment_trac.css">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.7.1/jquery.min.js"></script>
+    <script src="javascripts/respond.js"></script>
+    <!--[if lt IE 9]>
+      <script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+    <![endif]-->
+    <!--[if lt IE 8]>
+    <link rel="stylesheet" href="stylesheets/ie.css">
+    <![endif]-->
+    <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no">
+
+  </head>
+  <body>
+      <div id="header">
+        <nav>
+          <li class="fork"><a href="https://github.com/zeroeth/daerb">View On GitHub</a></li>
+          <li class="downloads"><a href="https://github.com/zeroeth/daerb/zipball/master">ZIP</a></li>
+          <li class="downloads"><a href="https://github.com/zeroeth/daerb/tarball/master">TAR</a></li>
+          <li class="title">DOWNLOADS</li>
+        </nav>
+      </div><!-- end header -->
+
+    <div class="wrapper">
+
+      <section>
+        <div id="title">
+          <h1>Daerb</h1>
+          <p>Y'know, that stuff from heaven. Scrape gatherer for magic cards.</p>
+          <hr>
+          <span class="credits left">Project maintained by <a href="https://github.com/zeroeth">zeroeth</a></span>
+          <span class="credits right">Hosted on GitHub Pages &mdash; Theme by <a href="https://twitter.com/michigangraham">mattgraham</a></span>
+        </div>
+
+        <p><img src="https://raw.github.com/zeroeth/daerb/master/preview.png" alt="preview"></p>
+
+<h1>
+<a name="daerb" class="anchor" href="#daerb"><span class="octicon octicon-link"></span></a>daerb</h1>
+
+<p>Y'know, that stuff from heaven.</p>
+
+<p>daerb is a scraper for various magic card sites to create visualizations of how cards have progressed over time.</p>
+
+<h2>
+<a name="instructions" class="anchor" href="#instructions"><span class="octicon octicon-link"></span></a>Instructions</h2>
+
+<p>The magiccardinfo scraper has 3 segments so far.</p>
+
+<ul>
+<li>download_all_pages.rb: Downloads all the sets from the US section. Run this just once, and you get a local copy to work with.</li>
+<li>image_downloader.rb: Parse through local set pages to retrieve images</li>
+<li>gather_all_cards.rb: Parse through local set pages for all cards and turn them into an array</li>
+</ul><p>The gatherer scraper worked off a large html file that there's no way to download anymore.</p>
+
+<h2>
+<a name="todo" class="anchor" href="#todo"><span class="octicon octicon-link"></span></a>Todo</h2>
+
+<ul>
+<li>Track cards that were removed and then added back in a large timeline graph</li>
+<li>Graph power and numbers of various types and subtypes over each release</li>
+</ul>
+      </section>
+
+    </div>
+    <!--[if !IE]><script>fixScale(document);</script><![endif]-->
+    
+  </body>
+</html>
