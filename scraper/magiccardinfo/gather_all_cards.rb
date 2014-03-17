@@ -121,6 +121,61 @@ module Scraper
         end
 
 
+
+        ### Cards by artist ####################################
+
+        sets = cards.group_by(&:artist)
+		# FIXME make this based on median value or just a fixed sized list (sorted -> truncated -> original order retained)
+		sets.delete_if{|key, set_cards| set_cards.count < 30}
+        max_length = sets.keys.collect(&:length).max
+
+        display_columns = (get_term_width / (max_length + 10)) # 10 comes from the formatting below
+
+        puts ""
+        puts "Cards by artist".blue
+
+        sets.each_slice(display_columns) do |row_of_pages|
+
+          formatted_sets = Array.new
+
+          row_of_pages.each do |artist, set_cards|
+            formatted_name   = sprintf("%#{max_length}s", artist)
+            formatted_number = sprintf("%4d", set_cards.count)
+            formatted_set = "[ #{formatted_name.blue} #{formatted_number.white} ] "
+            formatted_sets.push formatted_set
+          end
+
+          puts formatted_sets.join
+        end
+
+
+
+        ### Artist contribution ################################
+
+        sets = cards.group_by(&:artist)
+		sets = sets.group_by{|artist, set_cards| set_cards.count }
+		#sets.delete_if{|key, set_cards| set_cards.count < 30}
+        max_length = sets.keys.collect{|key| key.to_s.length}.max
+
+        display_columns = (get_term_width / (max_length + 10)) # 10 comes from the formatting below
+
+        puts ""
+        puts "Cards per artist".red
+
+        sets.each_slice(display_columns) do |row_of_pages|
+
+          formatted_sets = Array.new
+
+          row_of_pages.each do |artist, set_cards|
+            formatted_name   = sprintf("%#{max_length}s", artist)
+            formatted_number = sprintf("%4d", set_cards.count)
+            formatted_set = "[ #{formatted_name.red} #{formatted_number.white} ] "
+            formatted_sets.push formatted_set
+          end
+
+          puts formatted_sets.join
+        end
+
       end
 
 

@@ -24,3 +24,4 @@ Todo
 
 * Track cards that were removed and then added back in a large timeline graph
 * Graph power and numbers of various types and subtypes over each release
+* TUI based interface
