@@ -153,8 +153,7 @@ module Scraper
         ### Artist contribution ################################
 
         sets = cards.group_by(&:artist)
-		sets = sets.group_by{|artist, set_cards| set_cards.count }
-		#sets.delete_if{|key, set_cards| set_cards.count < 30}
+        sets = sets.group_by{|artist, set_cards| set_cards.count }
         max_length = sets.keys.collect{|key| key.to_s.length}.max
 
         display_columns = (get_term_width / (max_length + 10)) # 10 comes from the formatting below
@@ -175,6 +174,13 @@ module Scraper
 
           puts formatted_sets.join
         end
+
+        ### Types in each set
+
+        ### Sub types in each set
+
+
+        ### Number of sets each card appears in
 
       end
 
