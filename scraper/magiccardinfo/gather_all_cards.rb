@@ -43,27 +43,10 @@ module Scraper
       def report
         ### Cards in each set ##################################
 
-        sets = cards.group_by(&:set)
-        max_length = sets.keys.collect(&:length).max
+        cards_by_set = cards.group_by(&:set)
+        data_set = cards_by_set.map{|set, cards| [set, cards.count]}
 
-        display_columns = (get_term_width / (max_length + 10)) # 10 comes from the formatting below
-
-        puts ""
-        puts "Cards by expansion set".cyan
-
-        sets.each_slice(display_columns) do |row_of_pages|
-
-          formatted_sets = Array.new
-
-          row_of_pages.each do |set_name, set_cards|
-            formatted_name   = sprintf("%#{max_length}s", set_name)
-            formatted_number = sprintf("%4d", set_cards.count)
-            formatted_set = "[ #{formatted_name.cyan} #{formatted_number.green} ] "
-            formatted_sets.push formatted_set
-          end
-
-          puts formatted_sets.join
-        end
+        display_table_for data_set, :title => "Cards by expansion set", :key => :cyan, :value => :green
 
         puts ""
         puts "#{cards.count} cards gathered. #{cards.group_by(&:name).keys.count} unique names."
@@ -72,53 +55,19 @@ module Scraper
 
         ### Cards in each type #################################
 
-        sets = cards.group_by(&:primary_type)
-        max_length = sets.keys.collect(&:length).max
+        cards_by_type = cards.group_by(&:primary_type)
+        data_set = cards_by_type.map{|primary_type, cards| [primary_type, cards.count]}
 
-        display_columns = (get_term_width / (max_length + 10)) # 10 comes from the formatting below
-
-        puts ""
-        puts "Cards by primary type".yellow
-
-        sets.each_slice(display_columns) do |row_of_pages|
-
-          formatted_sets = Array.new
-
-          row_of_pages.each do |type_name, set_cards|
-            formatted_name   = sprintf("%#{max_length}s", type_name)
-            formatted_number = sprintf("%4d", set_cards.count)
-            formatted_set = "[ #{formatted_name.yellow} #{formatted_number.blue} ] "
-            formatted_sets.push formatted_set
-          end
-
-          puts formatted_sets.join
-        end
+        display_table_for data_set, :title => "Cards by primary type", :key => :yellow, :value => :blue
 
 
 
         ### Cards by converted mana cost #######################
 
-        sets = cards.group_by(&:converted_cost)
-        max_length = sets.keys.collect{|key| key.to_s.length}.max
+        cards_by_cost = cards.group_by(&:converted_cost)
+        data_set = cards_by_cost.map{|converted_cost, cards| [converted_cost, cards.count]}
 
-        display_columns = (get_term_width / (max_length + 10)) # 10 comes from the formatting below
-
-        puts ""
-        puts "Cards by converted mana cost".magenta
-
-        sets.each_slice(display_columns) do |row_of_pages|
-
-          formatted_sets = Array.new
-
-          row_of_pages.each do |cost, set_cards|
-            formatted_name   = sprintf("%#{max_length}s", cost)
-            formatted_number = sprintf("%4d", set_cards.count)
-            formatted_set = "[ #{formatted_name.magenta} #{formatted_number.red} ] "
-            formatted_sets.push formatted_set
-          end
-
-          puts formatted_sets.join
-        end
+        display_table_for data_set, :title => "Cards by converted mana cost", :key => :magenta, :value => :red
 
 
 
