@@ -66,7 +66,7 @@ module Scraper
         end
 
         puts ""
-        puts "#{cards.count} Cards gathered"
+        puts "#{cards.count} cards gathered. #{cards.group_by(&:name).keys.count} unique names."
 
 
 
@@ -124,65 +124,68 @@ module Scraper
 
         ### Cards by artist ####################################
 
-        sets = cards.group_by(&:artist)
-		# FIXME make this based on median value or just a fixed sized list (sorted -> truncated -> original order retained)
-		sets.delete_if{|key, set_cards| set_cards.count < 30}
-        max_length = sets.keys.collect(&:length).max
+        cards_by_artist = cards.group_by(&:artist)
+        
+        data_set = cards_by_artist.map{|artist, cards| [artist, cards.count]}
+        data_set = data_set.sort_by(&:last).reverse
+        data_set = data_set[0..100] # OR by median size
 
-        display_columns = (get_term_width / (max_length + 10)) # 10 comes from the formatting below
-
-        puts ""
-        puts "Cards by artist".blue
-
-        sets.each_slice(display_columns) do |row_of_pages|
-
-          formatted_sets = Array.new
-
-          row_of_pages.each do |artist, set_cards|
-            formatted_name   = sprintf("%#{max_length}s", artist)
-            formatted_number = sprintf("%4d", set_cards.count)
-            formatted_set = "[ #{formatted_name.blue} #{formatted_number.white} ] "
-            formatted_sets.push formatted_set
-          end
-
-          puts formatted_sets.join
-        end
+        display_table_for data_set, :title => "Cards by artist", :key => :blue, :value => :white
 
 
 
         ### Artist contribution ################################
 
-        sets = cards.group_by(&:artist)
-        sets = sets.group_by{|artist, set_cards| set_cards.count }
-        max_length = sets.keys.collect{|key| key.to_s.length}.max
+        cards_by_artist  = cards.group_by(&:artist)
+        artists_by_cards = cards_by_artist.group_by{|artist, cards| cards.count }
 
-        display_columns = (get_term_width / (max_length + 10)) # 10 comes from the formatting below
+        data_set = artists_by_cards.map{|card_count, artists| [artists.count, card_count] }
+        data_set = data_set.sort_by(&:last).reverse
 
-        puts ""
-        puts "Cards per artist".red
+        display_table_for data_set, :title => "Artist contributions (Artists/Cards)", :key => :red, :value => :white
 
-        sets.each_slice(display_columns) do |row_of_pages|
-
-          formatted_sets = Array.new
-
-          row_of_pages.each do |artist, set_cards|
-            formatted_name   = sprintf("%#{max_length}s", artist)
-            formatted_number = sprintf("%4d", set_cards.count)
-            formatted_set = "[ #{formatted_name.red} #{formatted_number.white} ] "
-            formatted_sets.push formatted_set
-          end
-
-          puts formatted_sets.join
-        end
 
         ### Types in each set
 
         ### Sub types in each set
 
-
         ### Number of sets each card appears in
 
       end
+
+
+
+      ### Colored table output function ########################
+
+      def display_table_for data_set, options = {}
+        options = {:title => "Data set", :key => :cyan, :value => :yellow}.merge options
+        
+        max_key_length   = data_set.collect{|data_row| data_row.first.to_s.length + 1 }.max
+        max_value_length = data_set.collect{|data_row| data_row.last.to_s.length  + 1 }.max
+
+        display_columns  = (get_term_width / (max_key_length + max_value_length + 6))
+
+        puts ""
+        puts Colored.colorize(options[:title], :foreground => options[:key])
+
+        data_set.each_slice(display_columns) do |row_of_data|
+
+          formatted_sets = Array.new
+
+          row_of_data.each do |key, value|
+            formatted_name   = sprintf( "%#{max_key_length}s",   key   )
+            formatted_number = sprintf( "%#{max_value_length}d", value )
+
+            colored_name   = Colored.colorize(formatted_name,   :foreground => options[:key]   )
+            colored_number = Colored.colorize(formatted_number, :foreground => options[:value] )
+
+            formatted_sets.push "[ #{colored_name} #{colored_number} ] "
+          end
+
+          puts formatted_sets.join
+        end
+      end
+
 
 
       # Term width, borrowed from progressbar
