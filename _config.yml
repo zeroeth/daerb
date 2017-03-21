@@ -1,0 +1,8 @@
+title: Daerb
+description: Y'know, that stuff from heaven. Scrape gatherer for magic cards.
+google_analytics: 
+show_downloads: true
+theme: jekyll-theme-cayman
+
+gems:
+  - jekyll-mentions
