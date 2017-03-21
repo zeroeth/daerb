@@ -20,13 +20,16 @@ module Scraper
     class SetIndex
       attr_accessor :agent, :directory, :blocks, :set_names
 
+      SET_LINK_MATCHER = "table:nth-child(32) td:nth-child(2) ul:nth-child(2) %{element}, table:nth-child(32) td:nth-child(1) %{element}" # without duel decks etc.
+      "table:nth-child(32) td:nth-child(2) ul:nth-child(2) small , table:nth-child(32) td:nth-child(1) small"
+      # "table:nth-child(32) td:nth-child(2) a , table:nth-child(32) td:nth-child(1) a" # include MGO, Duel Decks, etc.
+
 
       def get_set_names
         page = agent.get "file:" + File.join(directory, "sitemap.html")
 
-        set_name_matcher = "ul:nth-child(6) li:nth-child(2) li:nth-child(1) small , table:nth-child(32) td:nth-child(2) ul:nth-child(2) small, table:nth-child(32) td:nth-child(1) small"
 
-        rows   = page.parser.css(set_name_matcher)
+        rows   = page.parser.css(SET_LINK_MATCHER % {element: "small"})
         values = rows.collect(&:text)
         self.set_names = values
       end

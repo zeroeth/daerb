@@ -32,7 +32,8 @@ module Scraper
       def gather_cards
         ### open file #################
 
-        self.page = agent.get("file:"+File.join(self.directory, set_name+".html"))
+        request_path = "file:"+File.join(self.directory, set_name+".html")
+        self.page = agent.get request_path
 
 
         ### row selector ##############

@@ -8,6 +8,7 @@ require 'pry'
 require 'progressbar'
 
 
+require './scraper/magiccardinfo/set_index'
 
 module Scraper
   module Magiccardinfo
@@ -24,18 +25,22 @@ module Scraper
         page.save_as file_name unless File.exists? file_name
 
         # use more iteration and siblings to the h1 vs nth child.
-        set_link_matcher = "ul:nth-child(6) li:nth-child(2) li:nth-child(1) a , table:nth-child(32) td:nth-child(1) a, table:nth-child(32) td:nth-child(2) ul:nth-child(2) a"
+        links = page.parser.css SetIndex::SET_LINK_MATCHER % {element: "a"}
 
-        links = page.parser.css set_link_matcher
+        # spoiler page format
+        # query?q=%2B%2Be%3A#{set}%2Fen&v=spoiler
+        #
 
         ### Download all card lists ######
-        bar = ProgressBar.new "#{links.count} Pages", links.count
+        format = "%t: |%b %p%% => %i| %c/%C"
+        bar = ProgressBar.create title:"#{links.count} Pages", total:links.count, format: format
         links.each do |link|
           page = agent.get link.attributes["href"]
           file_name = File.join(self.directory, "sets", page.uri.path[1..-1].gsub("/", "_"))
           FileUtils.mkdir_p File.dirname file_name
           page.save_as file_name unless File.exists? file_name
-          bar.inc
+
+          bar.increment
         end
         bar.finish
       end

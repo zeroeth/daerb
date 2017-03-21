@@ -20,7 +20,8 @@ module Scraper
         index = Scraper::Magiccardinfo::SetIndex.new
         index.get_set_names
 
-        bar = ProgressBar.new "#{index.set_names.count} Sets", index.set_names.count
+        format = "%t: |%b %p%% => %i| %c/%C"
+        bar = ProgressBar.create title:"#{index.set_names.count} Sets", total:index.set_names.count, format: format
 
         index.set_names.each do |set_name|
           page = Scraper::Magiccardinfo::SetPage.new(set_name.gsub('_en',''))
@@ -29,7 +30,7 @@ module Scraper
           self.set_pages.push page
           self.cards.push page.cards
 
-          bar.inc
+          bar.increment
         end
 
         bar.finish
