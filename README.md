@@ -5,19 +5,25 @@ daerb
 
 Y'know, that stuff from heaven.
 
-daerb is a scraper for various magic card sites to create visualizations of how cards have progressed over time.
+daerb is a parser for various card checklist/spoiler sites to create visualizations of how cards have progressed over time as well as their breakdown by various attributes.
+
+Disclaimer <3
+-------------
+
+Please be friendly to any source websites and don't hammer them, this is a tool used for my own bemusement and curiosity in how different card games are structured.
 
 Instructions
 ------------
 
-The magiccardinfo scraper has 3 segments so far.
+The `magiccardinfo` parser has 3 segments.
 
-* download_all_pages.rb: Downloads all the sets from the US section. Run this just once, and you get a local copy to work with.
-* image_downloader.rb: Parse through local set pages to retrieve images
-* gather_all_cards.rb: Parse through local set pages for all cards and turn them into an array
+* `download_all_pages.rb`: Downloads all the sets from the US language section. Run this just once, and you get a local copy to work with.
+* `gather_all_cards.rb`: Parse through local set pages for all cards and turn them into an array
 
+And not required:
 
-The gatherer scraper worked off a large html file that there's no way to download anymore.
+* `image_downloader.rb`: Parse through local set pages to retrieve images (Will download a LOT of images so be warned)
+
 
 Todo
 ----
@@ -25,3 +31,5 @@ Todo
 * Track cards that were removed and then added back in a large timeline graph
 * Graph power and numbers of various types and subtypes over each release
 * TUI based interface
+* Add sources for years and starter decks (MTG)
+* Add sources for other card games (TNG, BattleTech, Netrunner)
