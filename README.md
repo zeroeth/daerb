@@ -30,6 +30,8 @@ Todo
 
 * Track cards that were removed and then added back in a large timeline graph
 * Graph power and numbers of various types and subtypes over each release
-* TUI based interface
+* TUI based interface or simple choice launcher
+* Idempotent downloader using cache date values if possible
+* Export/Load from external JSON/DB source after parsing
 * Add sources for years and starter decks (MTG)
 * Add sources for other card games (TNG, BattleTech, Netrunner)
